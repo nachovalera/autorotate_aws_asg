@@ -2,6 +2,11 @@
 import boto3, time, sys
 from collections import Counter
 
+# Select your profile
+AWS_PROFILE='default'
+AWS_REGION='eu-west-1'
+boto3.setup_default_session(profile_name=AWS_PROFILE, region_name=AWS_REGION)
+
 asg_client = boto3.client('autoscaling')
 ecs_client = boto3.client('ecs')
 alb_client = boto3.client('elbv2')
