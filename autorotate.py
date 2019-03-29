@@ -2,7 +2,7 @@
 import boto3, time, sys
 from collections import Counter
 
-# Select your profile
+# Select your profile and region
 AWS_PROFILE='default'
 AWS_REGION='eu-west-1'
 boto3.setup_default_session(profile_name=AWS_PROFILE, region_name=AWS_REGION)
@@ -11,10 +11,10 @@ asg_client = boto3.client('autoscaling')
 ecs_client = boto3.client('ecs')
 alb_client = boto3.client('elbv2')
 
-#MODIFY THIS
-asg = "yourASG"
-alb_target_group = 'yourTG'
-arn = 'yourARN'
+# Type here your vars
+asg = "ASG name"
+alb_target_group = 'Target group name'
+arn = 'Target group ARN'
 
 
 # build a list of current instance_ids, desired and max of asg
@@ -57,7 +57,7 @@ while x < new_desired:
 	time.sleep(5)
 
 
-# giving some time to register new targets, #TODO: count registered targets before proceeding
+# giving some time to register new targets
 time.sleep(140)
 
 # drain old instances
@@ -73,7 +73,6 @@ for i in initial_ids:
 	print('killing old instances \n', i,'\n', response)
 
 # set this to alb timeout + 10, important: sleep for the amount your target group drain timeout is set
-# TODO fetch from current settings
 time.sleep(40)
 
 # halfing asg size
